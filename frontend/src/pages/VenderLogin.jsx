@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../store/authSlice";
 
 function VenderLogin() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,8 +20,12 @@ function VenderLogin() {
         password,
       })
       .then((res) => {
-        console.log(res);
-        navigate("/venders/dashboard");
+        console.log(res.data.data);
+
+        const userData = res.data.data;
+        if (userData) dispatch(login(userData));
+
+        navigate("/venders/home");
       })
       .catch((err) => console.log(err));
   };
@@ -28,15 +35,15 @@ function VenderLogin() {
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold">Login now!</h1>
-            <p className="py-6">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-              et a id nisi.
-            </p>
+            <img
+              src="/img/login.svg"
+              alt="Login image"
+              style={{ width: "500px", height: "500px" }}
+            />
           </div>
           <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
             <form onSubmit={handleSubmit} className="card-body">
+              <h1 className="text-3xl font-sm">Vendor Login</h1>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
@@ -72,6 +79,12 @@ function VenderLogin() {
                 <button type="submit" className="btn btn-primary">
                   Login
                 </button>
+                <a
+                  href="/venders/register"
+                  className="py-3 hover:text-slate-300"
+                >
+                  Create new acoount.
+                </a>
               </div>
             </form>
           </div>

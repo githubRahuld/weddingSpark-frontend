@@ -10,9 +10,11 @@ import Home from "./pages/Home.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import VenderLogin from "./pages/VenderLogin.jsx";
 import VenderRegister from "./pages/VenderRegister.jsx";
-import VenderDashboard from "./pages/VenderDashboard.jsx";
+import VenderDashboard from "./pages/VenderHome.jsx";
 import store from "./store/store.js";
 import Search from "./pages/Search.jsx";
+import VenderHome from "./pages/VenderHome.jsx";
+import VenderList from "./pages/VenderList.jsx";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +52,14 @@ const router = createBrowserRouter([
       {
         path: "/venders/register",
         element: <VenderRegister />,
+      },
+      {
+        path: "/venders/home",
+        element: <VenderHome />,
+      },
+      {
+        path: "/venders/list",
+        element: <VenderList />,
       },
       {
         path: "/venders/dashboard",

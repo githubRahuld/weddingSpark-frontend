@@ -89,6 +89,9 @@ function Login() {
                   Login
                 </button>
                 <a href="/users/register">Don't have account | Sign Up Here</a>
+                <a href="/venders/login" className="hover:text-slate-300">
+                  Login as Vendor
+                </a>
               </div>
             </form>
           </div>

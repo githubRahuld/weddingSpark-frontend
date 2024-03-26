@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { logout } from "../../store/authSlice.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -17,10 +16,9 @@ function Navbar() {
     axios
       .post("http://localhost:3000/users/logout")
       .then((res) => {
-        const userData = res.data.data;
+        const userData = res.data;
         dispatch(logout({ userData }));
-        console.log(res.data.data.message);
-        setIsLoggedIn(false);
+        console.log(res.data.message);
         navigate("/users/login");
       })
       .catch((err) => console.log(err));
