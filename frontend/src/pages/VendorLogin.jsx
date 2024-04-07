@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../store/authSlice.js";
+import { loginVendor } from "../store/authSlice";
 import { Eye, EyeOff } from "lucide-react";
+import Cookies from "js-cookie";
 
-function Login() {
+function VenderLogin() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [error, setError] = useState("");
   const [isShow, setIsShow] = useState(false);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const toggleEye = () => {
@@ -21,32 +21,48 @@ function Login() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
     setError("");
+    e.preventDefault();
 
     axios
-      .post("http://localhost:3000/users/login", {
+      .post("http://localhost:3000/vendors/login", {
         email,
         password,
       })
       .then((res) => {
-        // console.log("user data:", res.data.data);
-        const userData = res.data.data;
+        const { accessToken, refreshToken } = res.data.data;
 
-        dispatch(loginUser({ userData }));
+        // Set cookies using js-cookie library
+        Cookies.set("accessToken", accessToken, {
+          secure: true,
+          sameSite: "strict",
+        });
+        Cookies.set("refreshToken", refreshToken, {
+          secure: true,
+          sameSite: "strict",
+        });
 
-        navigate("/users/home");
+        console.log("accessToken: ", accessToken);
+        console.log("refreshToken: ", refreshToken);
+
+        // console.log("Login details : ", res.data.data.accessToken);
+
+        const vendorData = res.data.data;
+
+        console.log("Vendor data: ", vendorData);
+        dispatch(loginVendor({ vendorData }));
+
+        navigate("/vendors/home");
       })
       .catch((err) => {
         setError("Invalid email or password");
-        // setError(err.message);
-        console.log("Error is : ", err);
+        console.log(err);
       });
   };
 
   return (
     <>
-      <div className="hero min-h-screen bg-base-200 m-0 p-0">
+      <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
             <img
@@ -57,8 +73,8 @@ function Login() {
           </div>
           <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
             <form onSubmit={handleSubmit} className="card-body">
-              <h1 className="text-3xl front-small">Login Now</h1>
-              {error && <p className="text-red-500">{error}</p>}
+              <h1 className="text-3xl font-sm">Vendor Login</h1>
+              {error && <p className="text-red-600">{error}</p>}
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
@@ -92,25 +108,27 @@ function Login() {
                     {isShow ? <Eye /> : <EyeOff />}
                   </div>
                 </div>
-
                 <label className="label">
-                  <a href="#" className="label-text-alt link link-hover">
+                  <Link to="#" className="label-text-alt link link-hover">
                     Forgot password?
-                  </a>
+                  </Link>
                 </label>
               </div>
               <div className="form-control mt-6">
                 <button type="submit" className="btn btn-primary">
                   Login
                 </button>
-                <Link to="/users/register" className="hover:underline">
-                  Don't have account | Sign Up Here
+                <Link
+                  to="/vendors/register"
+                  className="py-3 hover:text-slate-300 hover:underline"
+                >
+                  Create new acoount.
                 </Link>
                 <Link
-                  to="/vendors/login"
-                  className="hover:text-slate-300 hover:underline"
+                  to="/users/login"
+                  className="py-3 hover:text-slate-300 hover:underline"
                 >
-                  Login as Vendor
+                  Login as User
                 </Link>
               </div>
             </form>
@@ -121,4 +139,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default VenderLogin;

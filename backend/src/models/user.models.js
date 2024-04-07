@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const registerSchema = new Schema(
+const userSchema = new Schema(
   {
     name: {
       type: String,
@@ -31,7 +31,7 @@ const registerSchema = new Schema(
 );
 
 // incript password
-registerSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
   this.password = await bcrypt.hash(this.password, 10);
@@ -40,12 +40,12 @@ registerSchema.pre("save", async function (next) {
 });
 
 //custom methods to check the password
-registerSchema.methods.isPasswordCorrect = async function (password) {
+userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password); //return true or false
 };
 
 // syntax:- jwt.sign(payload, secretOrPrivateKey, [options, callback])
-registerSchema.methods.generateAccessToken = function () {
+userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -59,7 +59,7 @@ registerSchema.methods.generateAccessToken = function () {
   );
 };
 
-registerSchema.methods.generateRefreshToken = function () {
+userSchema.methods.generateRefreshToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -72,4 +72,4 @@ registerSchema.methods.generateRefreshToken = function () {
   );
 };
 
-export const Register = mongoose.model("Register", registerSchema);
+export const User = mongoose.model("Users", userSchema);

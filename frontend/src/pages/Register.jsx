@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Register() {
   const [name, setName] = useState();
@@ -98,7 +98,9 @@ function Register() {
                 <button type="submit" className="btn btn-primary">
                   Sign Up
                 </button>
-                <a href="/users/login">Already have account | Login here</a>
+                <Link to="/users/login" className="hover:underline">
+                  Already have account | Login here
+                </Link>
               </div>
             </form>
           </div>

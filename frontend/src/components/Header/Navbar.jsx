@@ -1,34 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { logout } from "../../store/authSlice.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const islogin = useSelector((state) => state.auth.status);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const userType = useSelector((state) => state.auth.userType);
+  const data = useSelector((state) => state.auth.user);
+  console.log("User type: ", userType);
+  console.log("allData: ", data);
 
-  console.log("user Login: ", islogin);
+  const handleLogout = async (e) => {
+    e.preventDefault();
 
-  const handleLogout = (e) => {
-    axios
-      .post("http://localhost:3000/users/logout")
-      .then((res) => {
-        const userData = res.data;
-        dispatch(logout({ userData }));
-        console.log(res.data.message);
-        navigate("/users/login");
-      })
-      .catch((err) => console.log(err));
+    try {
+      const response = await axios.post(
+        userType === "user"
+          ? "http://localhost:3000/users/logout"
+          : "http://localhost:3000/vendors/logout"
+      );
+
+      Cookies.remove("accessToken");
+      Cookies.remove("refreshToken");
+
+      dispatch(logout()); // Let the action handle potential data clearing
+      console.log(response.data.message);
+
+      if (userType === "user") {
+        navigate("/users/login"); // Or "/vendors/login" depending on user type
+      } else {
+        navigate("/vendors/login");
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+      navigate("/users/login");
+    }
   };
 
   return (
     <>
       <div className="navbar bg-base-100">
         <div className="navbar-start">
-          {islogin && (
+          {isLoggedIn && (
             <div className="dropdown">
               <div
                 tabIndex={0}
@@ -67,9 +86,11 @@ function Navbar() {
             </div>
           )}
 
-          <a className="btn btn-ghost text-xl">Wedding Sparks</a>
+          <Link to="/users/home" className="btn btn-ghost text-xl">
+            Wedding Sparks
+          </Link>
         </div>
-        {islogin && (
+        {isLoggedIn && (
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
               <li>
@@ -84,7 +105,7 @@ function Navbar() {
             </ul>
           </div>
         )}
-        {islogin && (
+        {isLoggedIn && (
           <div className="navbar-end">
             <div className="dropdown dropdown-end">
               <div

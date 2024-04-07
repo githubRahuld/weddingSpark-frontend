@@ -1,6 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function VenderHome() {
+  const data = useSelector((state) => state.auth.user);
+  const type = useSelector((state) => state.auth.userType);
+
+  console.log("user Data on home page and type : ", data, type);
+
   return (
     <>
       <div className="hero min-h-screen bg-base-200 ">
@@ -20,12 +27,12 @@ function VenderHome() {
               Increase your visiblity and reach by listing on{" "}
               <span className="hover:text-sky-400 ">Wedding Sparks</span>
             </p>
-            <a
-              href="/venders/list"
+            <Link
+              to="/vendors/listing"
               className="text-white bg-blue-500 hover:bg-blue-800 hover:text-white rounded-full px-5 py-2.5"
             >
               List Now
-            </a>
+            </Link>
           </div>
         </div>
       </div>

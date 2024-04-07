@@ -8,13 +8,13 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Home from "./pages/Home.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
-import VenderLogin from "./pages/VenderLogin.jsx";
-import VenderRegister from "./pages/VenderRegister.jsx";
-import VenderDashboard from "./pages/VenderHome.jsx";
+import VendorLogin from "./pages/VendorLogin.jsx";
+import VendorRegister from "./pages/VendorRegister.jsx";
+import VendorDashboard from "./pages/VendorHome.jsx";
 import store from "./store/store.js";
 import Search from "./pages/Search.jsx";
-import VenderHome from "./pages/VenderHome.jsx";
-import VenderList from "./pages/VenderList.jsx";
+import VendorHome from "./pages/VendorHome.jsx";
+import VendorList from "./pages/VendorList.jsx";
 
 const router = createBrowserRouter([
   {
@@ -46,24 +46,28 @@ const router = createBrowserRouter([
         element: <Search />,
       },
       {
-        path: "/venders/login",
-        element: <VenderLogin />,
+        path: "/vendors/login",
+        element: <VendorLogin />,
       },
       {
-        path: "/venders/register",
-        element: <VenderRegister />,
+        path: "/vendors/register",
+        element: <VendorRegister />,
       },
       {
-        path: "/venders/home",
-        element: <VenderHome />,
+        path: "/vendors/home",
+        element: <VendorHome />,
       },
       {
-        path: "/venders/list",
-        element: <VenderList />,
+        path: "/vendors/listing",
+        element: <VendorList />,
       },
       {
-        path: "/venders/dashboard",
-        element: <VenderDashboard />,
+        path: "/vendors/dashboard",
+        element: <VendorDashboard />,
+      },
+      {
+        path: "/vendors/logout",
+        element: <VendorLogin />,
       },
     ],
   },

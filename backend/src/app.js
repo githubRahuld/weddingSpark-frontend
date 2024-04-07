@@ -21,10 +21,10 @@ app.use(cookieParser());
 
 // routes import
 import userRouter from "./routes/user.routes.js";
-import venderRouter from "./routes/vender.routes.js";
+import vendorRouter from "./routes/vendor.routes.js";
 
 //router declaratioon
 app.use("/users", userRouter);
-app.use("/venders", venderRouter);
+app.use("/vendors", vendorRouter);
 
 export { app };

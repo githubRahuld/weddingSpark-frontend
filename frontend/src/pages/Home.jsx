@@ -1,11 +1,28 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { ImageCard } from "../components";
+import { useSelector } from "react-redux";
 
 function Home() {
+  const data = useSelector((state) => state.auth.user);
+  const type = useSelector((state) => state.auth.userType);
+  console.log("user Data on home page and type : ", data, type);
   return (
     <>
+      {/* carousel */}
+      <div className="carousel rounded-box">
+        <ImageCard src="/img/carousel/Venue.jpg" />
+        <ImageCard src="/img/carousel/dhool.jpg" />
+        <ImageCard src="/img/carousel/photographer.jpg" />
+        <ImageCard src="/img/carousel/travel.jpg" />
+        <ImageCard src="/img/carousel/designer.jpg" />
+        <ImageCard src="/img/carousel/dj.jpg" />
+        <ImageCard src="/img/carousel/catering.jpg" />
+      </div>
+
       {/* Hero section */}
-      <div className="hero min-h-screen bg-base-200 ">
-        <div className="hero-content flex-col lg:flex-row-reverse ">
+      <div className="hero min-h-screen bg-base-200">
+        <div className="hero-content flex-col lg:flex-row-reverse">
           <img
             src="/img/Peoplesearch-amico.svg"
             alt="search img"
@@ -23,12 +40,12 @@ function Home() {
               Booking vendors near you became very easy with Wedding - Sparks We
               believe in making wedding easy!
             </p>
-            <a
-              href="/users/search"
+            <Link
+              to="/users/search"
               className="text-white bg-blue-500 hover:bg-blue-800 hover:text-white rounded-full px-5 py-2.5 "
             >
               Search Venders
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -58,16 +75,15 @@ function Home() {
               We take care of all the things so that you can enjoy your wedding
               Book the vendors now!
             </p>
-            <a
-              href="/users/search"
+            <Link
+              to="/users/search"
               className="text-white bg-blue-500 hover:bg-blue-800 hover:text-white rounded-full px-5 py-2.5 "
             >
               Search Venders
-            </a>
+            </Link>
           </div>
         </div>
       </div>
-
       <div className="hero min-h-screen bg-base-200 ">
         <div className="hero-content flex-col lg:flex-row-reverse ">
           <img
@@ -87,12 +103,12 @@ function Home() {
               We take care of all the things so that you can expand your
               bussiness List yourself now!
             </p>
-            <a
-              href="/users/vender_login"
+            <Link
+              to="/vendors/login"
               className="text-white bg-blue-500 hover:bg-blue-800 hover:text-white rounded-full px-5 py-2.5 "
             >
               List as Vendor
-            </a>
+            </Link>
           </div>
         </div>
       </div>

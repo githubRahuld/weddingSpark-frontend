@@ -1,28 +1,44 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const storedStatus = localStorage.getItem("authStatus");
-const initialState = {
-  status: storedStatus ? JSON.parse(storedStatus) : false,
-  userData: null,
-};
+// Load state from local storage if available
+const initialState = localStorage.getItem("loggedInUser")
+  ? JSON.parse(localStorage.getItem("loggedInUser"))
+  : {
+      isLoggedIn: false,
+      userType: null,
+      user: null,
+    };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login: (state, action) => {
-      (state.status = true), (state.userData = action.payload.userData);
-      localStorage.setItem("authStatus", JSON.stringify(true));
-      console.log(action.payload.userData);
+    loginUser: (state, action) => {
+      const { userData } = action.payload;
+
+      state.isLoggedIn = true;
+      state.userType = "user";
+      state.user = userData;
+      localStorage.setItem("loggedInUser", JSON.stringify(state));
+    },
+
+    loginVendor: (state, action) => {
+      const { vendorData } = action.payload;
+
+      state.isLoggedIn = true;
+      state.userType = "vendor";
+      state.user = vendorData;
+      localStorage.setItem("loggedInUser", JSON.stringify(state));
     },
     logout: (state) => {
-      (state.status = false), (state.userData = null);
-      // Clear authentication status from browser storage
-      localStorage.removeItem("authStatus");
+      state.isLoggedIn = false;
+      state.userType = null;
+      state.user = null;
+      localStorage.removeItem("loggedInUser");
     },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { loginUser, loginVendor, logout } = authSlice.actions;
 
 export default authSlice.reducer;
