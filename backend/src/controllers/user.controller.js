@@ -162,20 +162,26 @@ const allVendors = asyncHandler(async (req, res) => {
 const getVendor = asyncHandler(async (req, res) => {
   const { country, state, city } = req.body;
 
+  // Validate input (example using express-validator)
+  // ... validation code here ...
+
   try {
-    const data = await Listing.find({
-      country: country,
-      state: state,
-      city: city,
-    });
-    console.log(data);
+    const data = await Listing.find({ city });
+
+    if (!data || data.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No vendors found for the given city" });
+    }
+
+    console.log("Got vendor: ", data);
 
     return res
       .status(200)
       .json(new ApiResponse(200, data, "Fetched vendor data"));
   } catch (error) {
-    console.log("Error in fetching vendor: ", error);
-    next(error);
+    console.error("Error in fetching vendor: ", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 });
 

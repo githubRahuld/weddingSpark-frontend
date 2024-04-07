@@ -11,7 +11,7 @@ const App = () => {
 
   const [country, setCountry] = useState(countryData[100]);
   const [state, setState] = useState();
-  const [city, setCity] = useState();
+  let [city, setCity] = useState();
 
   const [vendors, setVendors] = useState([]);
   const [searchClicked, setSearchClicked] = useState(false);
@@ -35,9 +35,9 @@ const App = () => {
     cityData && setCity(cityData[0]);
   }, [cityData]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+    city = city.name;
     axios
       .post("http://localhost:3000/users/search", {
         country,
@@ -45,11 +45,11 @@ const App = () => {
         city,
       })
       .then((res) => {
-        console.log(res.data);
+        console.log("Searched vendors: ", res.data);
         setVendors(res.data.data);
         setSearchClicked(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("search failed: ", err));
   };
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const App = () => {
       axios
         .get("http://localhost:3000/users/all-vendors")
         .then((res) => {
-          console.log(res.data);
+          console.log("List of all vendors: ", res.data);
           setVendors(res.data.data);
         })
         .catch((err) => console.log(err));

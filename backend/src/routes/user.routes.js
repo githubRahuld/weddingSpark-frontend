@@ -12,7 +12,7 @@ const router = Router();
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
 router.route("/logout").post(logoutUser);
-router.route("/all-vendors").get(allVendors);
 router.route("/search").post(getVendor);
+router.route("/all-vendors").get(allVendors);
 
 export default router;

@@ -3,7 +3,7 @@ import React from "react";
 const ImageCard = ({
   src,
   alt = "image",
-  height = "600px",
+  height = "450px",
   width = "400px",
 }) => {
   return (
