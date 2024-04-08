@@ -15,6 +15,7 @@ import store from "./store/store.js";
 import Search from "./pages/Search.jsx";
 import VendorHome from "./pages/VendorHome.jsx";
 import VendorList from "./pages/VendorList.jsx";
+import Booking from "./pages/Booking.jsx";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "/users/search",
         element: <Search />,
+      },
+      {
+        path: "/users/booking",
+        element: <Booking />,
       },
       {
         path: "/vendors/login",

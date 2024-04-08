@@ -119,6 +119,9 @@ const App = () => {
           vendors.map((list) => (
             <Card
               key={list._id}
+              _id={list._id}
+              name={list.name}
+              email={list.email}
               image={list.image}
               city={list.city}
               contact={list.contact}

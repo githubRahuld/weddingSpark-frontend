@@ -160,13 +160,20 @@ const allVendors = asyncHandler(async (req, res) => {
 });
 
 const getVendor = asyncHandler(async (req, res) => {
-  const { country, state, city } = req.body;
+  const { country, state, city, _id } = req.body;
 
   // Validate input (example using express-validator)
   // ... validation code here ...
 
+  let data;
+
   try {
-    const data = await Listing.find({ city });
+    if (city) {
+      data = await Listing.find({ city });
+    }
+    if (_id) {
+      data = await Listing.find({ _id });
+    }
 
     if (!data || data.length === 0) {
       return res

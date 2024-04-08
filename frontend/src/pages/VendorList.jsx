@@ -8,6 +8,7 @@ import PhoneInput from "react-phone-number-input";
 import { Button, Label } from "flowbite-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const categories = [
   "Venue",
@@ -21,9 +22,10 @@ const categories = [
   "Jeweler",
   "Designer",
 ];
-console.log(categories);
 
 function VenderList() {
+  const userEmail = useSelector((state) => state.auth.user.user.email);
+
   let countryData = Country.getAllCountries();
   const [stateData, setStateData] = useState();
   const [cityData, setCityData] = useState();
@@ -32,7 +34,7 @@ function VenderList() {
   const [state, setState] = useState();
   const [city, setCity] = useState();
 
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [contact, setcontact] = useState("");
@@ -65,7 +67,8 @@ function VenderList() {
 
     // Gather form data
     const formData = new FormData();
-    formData.append("email", email);
+    formData.append("name", name);
+    formData.append("email", userEmail);
     formData.append("category", category);
     formData.append("country", country.name);
     formData.append("state", state.name);
@@ -109,11 +112,17 @@ function VenderList() {
             <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
             <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
           </svg>
+          <input type="text" className="grow" value={userEmail} readOnly />
+        </label>
+
+        {/* Vendor name */}
+        <label className="input input-bordered flex items-center gap-2">
+          Name
           <input
             type="text"
-            className="grow"
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
+            className=" w-full max-w-xs"
+            placeholder="Rahul"
+            onChange={(e) => setName(e.target.value)}
           />
         </label>
 
@@ -162,6 +171,7 @@ function VenderList() {
             )}
           </div>
         </div>
+
         <label className="input input-bordered flex items-center gap-2">
           Price
           <input

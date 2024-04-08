@@ -1,49 +1,47 @@
 import mongoose, { Schema } from "mongoose";
 
-const listingSchema = new Schema(
+const bookingSchema = new Schema.model(
   {
     name: {
       type: String,
       required: true,
       trim: true,
+      lowercase: true,
     },
     email: {
       type: String,
       required: true,
+      trim: true,
+      lowercase: true,
     },
-    category: {
+    location: {
       type: String,
       required: true,
+      trim: true,
+      lowercase: true,
     },
-    country: {
+    from: {
+      type: Date,
+      required: true,
+    },
+    to: {
+      type: Date,
+      required: true,
+    },
+    vendorName: {
       type: String,
       required: true,
+      trim: true,
+      lowercase: true,
     },
-    state: {
+    vendorEmail: {
       type: String,
       required: true,
-    },
-    city: {
-      type: String,
-      required: true,
-    },
-    price: {
-      type: Number,
-      required: true,
-    },
-    contact: {
-      type: Number,
-      required: true,
-    },
-    description: {
-      type: String,
-    },
-    image: {
-      type: String,
-      required: true,
+      trim: true,
+      lowercase: true,
     },
   },
   { timestamps: true }
 );
 
-export const Listing = mongoose.model("Listing", listingSchema);
+export const Booking = mongoose.model("booking", bookingSchema);

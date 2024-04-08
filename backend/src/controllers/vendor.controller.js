@@ -160,6 +160,7 @@ const vendorLogout = asyncHandler(async (req, res) => {
 
 const vendorListing = asyncHandler(async (req, res) => {
   const {
+    name,
     email,
     category,
     country,
@@ -173,6 +174,7 @@ const vendorListing = asyncHandler(async (req, res) => {
 
   console.log(
     "Values: ",
+    name,
     email,
     category,
     country,
@@ -201,6 +203,7 @@ const vendorListing = asyncHandler(async (req, res) => {
     if (!uploadedImage) throw new ApiError(404, "Image is required");
 
     const result = await Listing.create({
+      name,
       email,
       category,
       country,
@@ -216,7 +219,7 @@ const vendorListing = asyncHandler(async (req, res) => {
       .status(200)
       .json(new ApiResponse(200, result, "Vendor listed successfully"));
   } catch (error) {
-    console.log("Error in vendor lising: ", erro);
+    console.log("Error in vendor lising: ", error);
   }
 });
 
