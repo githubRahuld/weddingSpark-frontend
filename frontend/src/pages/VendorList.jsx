@@ -88,9 +88,13 @@ function VenderList() {
       })
       .then((res) => {
         console.log("res: ", res);
-        console.log(formData);
+        // Log the values from the form data
+        for (const [key, value] of formData.entries()) {
+          console.log(`${key}: ${value}`);
+        }
+        console.log(formData.getAll()); // formdata will be empty
 
-        navigate("/vendors/home");
+        navigate("/vendors/vDashboard");
       })
       .catch((err) => console.log("error while listing: ", err.message));
   };

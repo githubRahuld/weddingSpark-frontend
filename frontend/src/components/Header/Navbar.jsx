@@ -74,16 +74,33 @@ function Navbar() {
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <a>About</a>
+                  <Link
+                    to={userType === "user" ? "/users/home" : "/vendors/home"}
+                  >
+                    Home
+                  </Link>
                 </li>
                 <li>
-                  <a>Services</a>
+                  <Link
+                    to={userType === "user" ? "/users/about" : "/vendors/about"}
+                  >
+                    About
+                  </Link>
+                </li>
+
+                <li>
+                  <Link>User Reviews</Link>
                 </li>
                 <li>
-                  <a>User Reviews</a>
-                </li>
-                <li>
-                  <a>Dashboard</a>
+                  <Link
+                    to={
+                      userType === "user"
+                        ? "/users/uDashboard"
+                        : "/vendors/vDashboard"
+                    }
+                  >
+                    Dashboard
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -103,16 +120,33 @@ function Navbar() {
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
               <li>
-                <a>About</a>
+                <Link
+                  to={userType === "user" ? "/users/home" : "/vendors/home"}
+                >
+                  Home
+                </Link>
               </li>
               <li>
-                <a>Services</a>
+                <Link
+                  to={userType === "user" ? "/users/about" : "/vendors/about"}
+                >
+                  About
+                </Link>
               </li>
+
               <li>
                 <a>User Reviews</a>
               </li>
               <li>
-                <a>Dashboard</a>
+                <Link
+                  to={
+                    userType === "user"
+                      ? "/users/uDashboard"
+                      : "/vendors/vDashboard"
+                  }
+                >
+                  Dashboard
+                </Link>
               </li>
             </ul>
           </div>

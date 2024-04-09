@@ -1,18 +1,17 @@
 import mongoose, { Schema } from "mongoose";
 
-const bookingSchema = new Schema.model(
+const bookingSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
       trim: true,
-      lowercase: true,
+      required: true,
     },
     email: {
       type: String,
-      required: true,
       trim: true,
       lowercase: true,
+      required: true,
     },
     location: {
       type: String,
@@ -20,11 +19,11 @@ const bookingSchema = new Schema.model(
       trim: true,
       lowercase: true,
     },
-    from: {
+    fromDate: {
       type: Date,
       required: true,
     },
-    to: {
+    toDate: {
       type: Date,
       required: true,
     },
@@ -44,4 +43,4 @@ const bookingSchema = new Schema.model(
   { timestamps: true }
 );
 
-export const Booking = mongoose.model("booking", bookingSchema);
+export const Booking = mongoose.model("Booking", bookingSchema);

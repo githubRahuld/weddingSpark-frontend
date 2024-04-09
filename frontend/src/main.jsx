@@ -16,6 +16,8 @@ import Search from "./pages/Search.jsx";
 import VendorHome from "./pages/VendorHome.jsx";
 import VendorList from "./pages/VendorList.jsx";
 import Booking from "./pages/Booking.jsx";
+import VDashboard from "./pages/VDashboard.jsx";
+import About from "./pages/About.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,7 +37,11 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/users/dashboard",
+        path: "/users/about",
+        element: <About />,
+      },
+      {
+        path: "/users/uDashboard",
         element: <Dashboard />,
       },
       {
@@ -67,8 +73,8 @@ const router = createBrowserRouter([
         element: <VendorList />,
       },
       {
-        path: "/vendors/dashboard",
-        element: <VendorDashboard />,
+        path: "/vendors/vDashboard",
+        element: <VDashboard />,
       },
       {
         path: "/vendors/logout",

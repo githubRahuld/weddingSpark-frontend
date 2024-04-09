@@ -3,6 +3,7 @@ import { ApiError } from "../utils/apiError.js";
 import { User } from "../models/user.models.js";
 import { Listing } from "../models/vendor_listing.js";
 import { ApiResponse } from "../utils/apiResponse.js";
+import { Booking } from "../models/booking.models.js";
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -110,7 +111,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
         )
       );
   } catch (err) {
-    console.log("error at user login: ", error);
+    console.log("error at user login: ", err);
     // Pass the error to the error handling middleware
     next(err);
   }
@@ -192,4 +193,70 @@ const getVendor = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser, loginUser, logoutUser, allVendors, getVendor };
+const bookingVendor = asyncHandler(async (req, res) => {
+  const { name, email, location, fromDate, toDate, vendorName, vendorEmail } =
+    req.body;
+
+  try {
+    console.log(
+      "Booking input: ",
+      name,
+      email,
+      fromDate,
+      toDate,
+      location,
+      vendorName,
+      vendorEmail
+    );
+
+    // Create the booking document
+    const result = await Booking.create({
+      name,
+      email,
+      fromDate,
+      toDate,
+      location,
+      vendorName,
+      vendorEmail,
+    });
+
+    // console.log("Booking result: ", result);
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, result, "You have successfully booked the vendor.")
+      );
+  } catch (error) {
+    // Log the error
+    console.error("Error while booking vendor: ", error);
+
+    // Return an error response
+    return res
+      .status(500)
+      .json(
+        new ApiError(500, null, "An error occurred while booking the vendor.")
+      );
+  }
+});
+
+const userBooking = asyncHandler(async (req, res) => {
+  try {
+    const getuser = await User.findById(req.user?._id);
+    console.log(getuser);
+
+    const allBookings = await Booking.find({ email });
+  } catch (error) {
+    console.log("Error in fetching user booking data: ", error);
+  }
+});
+
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  allVendors,
+  getVendor,
+  bookingVendor,
+  userBooking,
+};
