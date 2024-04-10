@@ -218,6 +218,7 @@ const bookingVendor = asyncHandler(async (req, res) => {
       location,
       vendorName,
       vendorEmail,
+      status: "Pending",
     });
 
     // console.log("Booking result: ", result);
@@ -241,14 +242,63 @@ const bookingVendor = asyncHandler(async (req, res) => {
 });
 
 const userBooking = asyncHandler(async (req, res) => {
-  try {
-    const getuser = await User.findById(req.user?._id);
-    console.log(getuser);
+  const userEmail = req.query.userEmail;
+  // console.log(userEmail);
 
-    const allBookings = await Booking.find({ email });
+  try {
+    const allBookings = await Booking.find({ email: userEmail });
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, allBookings, "Booking fetched"));
   } catch (error) {
     console.log("Error in fetching user booking data: ", error);
   }
+});
+
+const acceptBooking = asyncHandler(async (req, res) => {
+  const id = req.params.bookingId;
+  console.log("got id: ", id);
+
+  const resId = await Booking.findByIdAndUpdate(
+    id,
+    {
+      $set: {
+        status: "Confirmed",
+      },
+    },
+    { new: true }
+  );
+
+  if (!resId) {
+    throw new ApiError(404, "Invalid booking Id");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, resId, "Changed status to accept"));
+});
+const rejectBooking = asyncHandler(async (req, res) => {
+  const id = req.params.bookingId;
+  console.log("got id: ", id);
+
+  const resId = await Booking.findByIdAndUpdate(
+    id,
+    {
+      $set: {
+        status: "Rejected",
+      },
+    },
+    { new: true }
+  );
+
+  if (!resId) {
+    throw new ApiError(404, "Invalid booking Id");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, resId, "Changed status to Rejected"));
 });
 
 export {
@@ -259,4 +309,6 @@ export {
   getVendor,
   bookingVendor,
   userBooking,
+  acceptBooking,
+  rejectBooking,
 };

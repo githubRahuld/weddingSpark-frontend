@@ -6,6 +6,8 @@ import { Vregister } from "../models/vendor.models.js";
 
 export const verifyJWT = asyncHandler(async (req, _, next) => {
   try {
+    const newToken = req.cookies.accessToken;
+    console.log("new token : ", newToken);
     const token =
       req.cookies?.accessToken ||
       req.header("Authorization")?.replace("Bearer ", "");

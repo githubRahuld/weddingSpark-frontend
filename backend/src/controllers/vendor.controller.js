@@ -5,6 +5,7 @@ import { ApiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { User } from "../models/user.models.js";
+import { Booking } from "../models/booking.models.js";
 
 const vender_generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -223,4 +224,25 @@ const vendorListing = asyncHandler(async (req, res) => {
   }
 });
 
-export { vendorRegister, vendorLogin, vendorLogout, vendorListing };
+const vendorBooking = asyncHandler(async (req, res) => {
+  const userEmail = req.query.userEmail;
+  console.log("vendor mail:", userEmail);
+
+  try {
+    const allBookings = await Booking.find({ vendorEmail: userEmail });
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, allBookings, "Booking fetched"));
+  } catch (error) {
+    console.log("Error in fetching user booking data: ", error);
+  }
+});
+
+export {
+  vendorRegister,
+  vendorLogin,
+  vendorLogout,
+  vendorListing,
+  vendorBooking,
+};

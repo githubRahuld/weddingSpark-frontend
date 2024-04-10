@@ -46,7 +46,7 @@ function Navbar() {
   return (
     <>
       <div className="navbar bg-base-100">
-        <div className="navbar-start">
+        <div className={`navbar-start font-poppins text-xl`}>
           {isLoggedIn && (
             <div className="dropdown">
               <div
@@ -89,7 +89,13 @@ function Navbar() {
                 </li>
 
                 <li>
-                  <Link>User Reviews</Link>
+                  <Link
+                    to={
+                      userType === "user" ? "/users/booking" : "/vendors/about"
+                    }
+                  >
+                    {userType === "user" ? "Book" : "About"}
+                  </Link>
                 </li>
                 <li>
                   <Link
@@ -111,13 +117,16 @@ function Navbar() {
               Wedding Sparks
             </Link>
           ) : (
-            <Link to="/vendors/home" className="btn btn-ghost text-xl">
+            <Link
+              to="/vendors/home"
+              className="btn btn-ghost text-xl text-blue-700"
+            >
               Wedding Sparks
             </Link>
           )}
         </div>
         {isLoggedIn && (
-          <div className="navbar-center hidden lg:flex">
+          <div className="navbar-center hidden lg:flex font-poppins text-xl">
             <ul className="menu menu-horizontal px-1">
               <li>
                 <Link
@@ -133,9 +142,12 @@ function Navbar() {
                   About
                 </Link>
               </li>
-
               <li>
-                <a>User Reviews</a>
+                <Link
+                  to={userType === "user" ? "/users/search" : "/vendors/about"}
+                >
+                  {userType === "user" ? "Book" : "About"}
+                </Link>
               </li>
               <li>
                 <Link

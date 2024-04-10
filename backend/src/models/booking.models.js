@@ -39,6 +39,10 @@ const bookingSchema = new Schema(
       trim: true,
       lowercase: true,
     },
+    status: {
+      type: String,
+      default: "Pending",
+    },
   },
   { timestamps: true }
 );

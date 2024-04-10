@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../store/authSlice.js";
 import { Eye, EyeOff } from "lucide-react";
+import Cookies from "js-cookie";
 
 function Login() {
   const [email, setEmail] = useState();
@@ -31,6 +32,22 @@ function Login() {
       })
       .then((res) => {
         // console.log("user data:", res.data.data);
+
+        const { accessToken, refreshToken } = res.data.data;
+
+        // Set cookies using js-cookie library
+        Cookies.set("accessToken", accessToken, {
+          secure: true,
+          sameSite: "strict",
+        });
+        Cookies.set("refreshToken", refreshToken, {
+          secure: true,
+          sameSite: "strict",
+        });
+
+        console.log("accessToken: ", accessToken);
+        console.log("refreshToken: ", refreshToken);
+
         const userData = res.data.data;
 
         dispatch(loginUser({ userData }));
