@@ -10,15 +10,15 @@ import Home from "./pages/Home.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import VendorLogin from "./pages/VendorLogin.jsx";
 import VendorRegister from "./pages/VendorRegister.jsx";
-import VendorDashboard from "./pages/VendorHome.jsx";
 import store from "./store/store.js";
 import Search from "./pages/Search.jsx";
 import VendorHome from "./pages/VendorHome.jsx";
 import VendorList from "./pages/VendorList.jsx";
 import Booking from "./pages/Booking.jsx";
 import VDashboard from "./pages/VDashboard.jsx";
-import About from "./pages/About.jsx";
 import VendorAllListing from "./pages/VendorAllListing.jsx";
+import AboutPage from "./pages/AboutPage.jsx";
+import VAbout from "./pages/VAbout.jsx";
 
 const router = createBrowserRouter([
   {
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/users/about",
-        element: <About />,
+        element: <AboutPage />,
       },
       {
         path: "/users/uDashboard",
@@ -88,6 +88,10 @@ const router = createBrowserRouter([
       {
         path: "/vendors/allListing",
         element: <VendorAllListing />,
+      },
+      {
+        path: "/vendors/about",
+        element: <VAbout />,
       },
     ],
   },

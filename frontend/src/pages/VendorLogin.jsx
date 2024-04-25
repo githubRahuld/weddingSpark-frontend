@@ -131,6 +131,11 @@ function VenderLogin() {
                   Login as User
                 </Link>
               </div>
+
+              <div className="bg-base-300 text-yellow rounded-md">
+                <p>email: arjun.gupta@gmail.com</p>
+                <p>password: demo123</p>
+              </div>
             </form>
           </div>
         </div>

@@ -138,6 +138,16 @@ function Navbar() {
                     Dashboard
                   </Link>
                 </li>
+                {userType === "vendor" && (
+                  <li>
+                    <Link
+                      className="text-white hover:bg-yellow-300 hover:text-black"
+                      to={"/vendors/allListing"}
+                    >
+                      My Listing
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
           )}
@@ -178,14 +188,16 @@ function Navbar() {
                   About
                 </Link>
               </li>
-              <li>
-                <Link
-                  className="text-white hover:bg-yellow-300 hover:text-black"
-                  to={userType === "user" ? "/users/search" : "/vendors/about"}
-                >
-                  {userType === "user" ? "Book" : "About"}
-                </Link>
-              </li>
+              {userType === "user" && (
+                <li>
+                  <Link
+                    className="text-white hover:bg-yellow-300 hover:text-black"
+                    to={"/users/search"}
+                  >
+                    Book
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link
                   className="text-white hover:bg-yellow-300 hover:text-black"

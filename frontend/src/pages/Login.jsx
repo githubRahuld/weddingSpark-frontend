@@ -76,6 +76,7 @@ function Login() {
             <form onSubmit={handleSubmit} className="card-body">
               <h1 className="text-3xl front-small">Login Now</h1>
               {error && <p className="text-red-500">{error}</p>}
+
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
@@ -129,6 +130,10 @@ function Login() {
                 >
                   Login as Vendor
                 </Link>
+              </div>
+              <div className="bg-base-300 text-yellow rounded-md">
+                <p>email: demo@mail.com</p>
+                <p>password: demo123</p>
               </div>
             </form>
           </div>
