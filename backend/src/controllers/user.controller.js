@@ -4,6 +4,7 @@ import { User } from "../models/user.models.js";
 import { Listing } from "../models/vendor_listing.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { Booking } from "../models/booking.models.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -42,12 +43,23 @@ const registerUser = asyncHandler(async (req, res) => {
       throw new ApiError(400, "You are already registered");
     }
 
+    const imageLocalPath = req.files?.avatar[0]?.path;
+
+    if (!imageLocalPath) {
+      throw new ApiError(400, "Avatar is required");
+    }
+
+    const avatarFile = await uploadOnCloudinary(imageLocalPath);
+
+    if (!avatarFile) throw new ApiError(400, "error while uploading avatar");
+
     //save in DB
     const user = await User.create({
       name,
       email,
       password,
       cPassword,
+      avatar: avatarFile.url,
     });
 
     //send data that we want to show in frontend
@@ -60,7 +72,6 @@ const registerUser = asyncHandler(async (req, res) => {
       .json(new ApiResponse(200, createdUser, "User registered successfull"));
   } catch (error) {
     console.log("error at user registration: ", error);
-    next(err);
   }
 });
 
@@ -144,6 +155,29 @@ const logoutUser = asyncHandler(async (req, res) => {
     .clearCookie("accessToken", options)
     .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, {}, "User logged Out"));
+});
+
+const getUser = asyncHandler(async (req, res) => {
+  const userId = req.params.userId;
+  console.log(userId);
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new ApiError(404, "user not found");
+    }
+
+    const userData = await User.findById({ _id: user._id }).select(
+      "-password -cPassword -refreshToken"
+    );
+    console.log("data: ", userData);
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, userData, "User details found successfully"));
+  } catch (error) {
+    throw new ApiError(500, "something went wrong with user");
+  }
 });
 
 const allVendors = asyncHandler(async (req, res) => {
@@ -301,6 +335,17 @@ const rejectBooking = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, resId, "Changed status to Rejected"));
 });
 
+const bookingStatus = asyncHandler(async (req, res) => {
+  const bookingId = req.params.bookingId;
+
+  const bookingDetails = await Booking.findById(bookingId);
+  // console.log(bookingDetails);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, bookingDetails.status, "bookingstatus fetched"));
+});
+
 export {
   registerUser,
   loginUser,
@@ -311,4 +356,6 @@ export {
   userBooking,
   acceptBooking,
   rejectBooking,
+  getUser,
+  bookingStatus,
 };

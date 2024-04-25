@@ -38,8 +38,9 @@ function VenderList() {
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [contact, setcontact] = useState("");
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState(null);
   const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -62,7 +63,15 @@ function VenderList() {
     cityData && setCity(cityData[0]);
   }, [cityData]);
 
+  const handleImageChange = (e) => {
+    const files = e.target.files;
+    const selectedImages = Array.from(files).slice(0, 3); // Limit to first 3 selected images
+
+    setImages(selectedImages);
+  };
+
   const handleSubmit = (e) => {
+    setLoading(true);
     e.preventDefault();
 
     // Gather form data
@@ -76,9 +85,11 @@ function VenderList() {
     formData.append("price", price);
     formData.append("contact", contact);
     formData.append("description", description);
-    formData.append("image", image);
 
-    console.log("Form Data : ", formData);
+    // Append each selected image
+    images.forEach((image) => {
+      formData.append(`images`, image);
+    });
 
     axios
       .post("http://localhost:3000/vendors/listing", formData, {
@@ -87,12 +98,14 @@ function VenderList() {
         },
       })
       .then((res) => {
+        setLoading(false);
+
         console.log("res: ", res);
         // Log the values from the form data
         for (const [key, value] of formData.entries()) {
           console.log(`${key}: ${value}`);
         }
-        console.log(formData.getAll()); // formdata will be empty
+        // console.log(formData.getAll()); // formdata will be empty
 
         navigate("/vendors/vDashboard");
       })
@@ -101,136 +114,159 @@ function VenderList() {
 
   return (
     <>
-      <form
-        className="flex justify-center max-w-md flex-col gap-4 py-10"
-        encType="multipart/form-data"
-      >
-        {/* email */}
-        <label className="input input-bordered flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-            fill="currentColor"
-            className="w-4 h-4 opacity-70"
+      <div className="min-h-screen flex justify-center items-center p-4 bg-cover bg-center bg-[url('/img/bg/list-bg.jpg')]">
+        {loading ? (
+          <span className="loading loading-spinner loading-lg text-black"></span>
+        ) : (
+          <form
+            className="max-w-md md:w-full lg:w-1/2 flex flex-col gap-4 p-6 shadow-md rounded-md text-white bg-slate-700 bg-opacity-20 font-poppins"
+            encType="multipart/form-data"
           >
-            <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-            <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-          </svg>
-          <input type="text" className="grow" value={userEmail} readOnly />
-        </label>
+            {/* email */}
+            <div className="flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="w-4 h-4 opacity-70 text-black"
+              >
+                <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+              </svg>
+              <input
+                type="text"
+                className="w-full py-2 pl-3 text-sm border-b border-gray-300 focus:outline-none bg-gray-100 rounded-lg text-black font-bold"
+                value={userEmail}
+                readOnly
+              />
+            </div>
 
-        {/* Vendor name */}
-        <label className="input input-bordered flex items-center gap-2">
-          Name
-          <input
-            type="text"
-            className=" w-full max-w-xs"
-            placeholder="Rahul"
-            onChange={(e) => setName(e.target.value)}
-          />
-        </label>
+            {/* Vendor name */}
+            <div className="flex items-center gap-2">
+              <p className="font-semibold text-black">Name</p>
+              <input
+                type="text"
+                className="w-full py-2 pl-3 text-sm border-b border-gray-300 focus:outline-none bg-gray-100 rounded-lg text-black"
+                placeholder="Your Name"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <p className="font-semibold text-black">category</p>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full py-2 pl-3 text-sm border-b border-gray-300 focus:outline-none bg-gray-100 rounded-xl text-black"
+              >
+                <option value="">Select Category</option>
+                {categories.map((category, index) => (
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        {/* Address */}
-        <select
-          className="select select-bordered w-full max-w-xs mt-10"
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          <option disabled selected>
-            Select Category
-          </option>
-          {categories.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-        <Label htmlFor="address" value="Select Address " />
-        <div className="flex flex-col gap-4">
-          <div>
-            <Selector
-              data={countryData}
-              selected={country}
-              setSelected={setCountry}
-              className={"bg-gray-700"}
+            {/* Address */}
+            <div className="flex flex-col gap-4 relative ">
+              <Selector
+                data={countryData}
+                selected={country}
+                setSelected={setCountry}
+                className={"bg-gray-100"}
+              />
+              {state && (
+                <Selector
+                  data={stateData}
+                  selected={state}
+                  setSelected={setState}
+                  className={"bg-gray-100"}
+                />
+              )}
+              {city && (
+                <Selector
+                  data={cityData}
+                  selected={city}
+                  setSelected={setCity}
+                  className={"bg-gray-100"}
+                />
+              )}
+            </div>
+
+            {/* Price */}
+            <div className="flex items-center gap-2">
+              <p className="font-semibold text-black">Price</p>
+              <input
+                type="number"
+                className="w-full py-2 pl-3 text-sm border-b border-gray-300 focus:outline-none bg-gray-100 rounded-lg text-black"
+                placeholder=" ₹/Day"
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </div>
+
+            {/* Phone number */}
+            <Label
+              htmlFor="number"
+              value="Phone Number"
+              className="text-black"
             />
-          </div>
-          <div>
-            {state && (
-              <Selector
-                data={stateData}
-                selected={state}
-                setSelected={setState}
-                className={"bg-gray-700"}
-              />
-            )}
-          </div>
-          <div>
-            {city && (
-              <Selector
-                data={cityData}
-                selected={city}
-                setSelected={setCity}
-                className={"bg-gray-700"}
-              />
-            )}
-          </div>
-        </div>
+            <PhoneInput
+              placeholder="Enter phone number"
+              value={contact}
+              onChange={setcontact}
+              className="w-full py-2 pl-3 text-sm border-b  border-gray-300 focus:outline-none"
+            />
 
-        <label className="input input-bordered flex items-center gap-2">
-          Price
-          <input
-            type="Number"
-            className=" w-full max-w-xs"
-            placeholder=" ₹/Day"
-            onChange={(e) => setPrice(e.target.value)}
-          />
-        </label>
-        {/* phone number */}
-        <Label htmlFor="number" value="Phone Number" />
-        <PhoneInput
-          placeholder="Enter phone number"
-          value={contact}
-          onChange={setcontact}
-          className="bg-gray-700 rounded-md"
-        />
-        {/* upload image */}
-        <Label htmlFor="image" value="Upload Photos" />
-        <input
-          type="file"
-          className="file-input file-input-bordered file-input-info w-full max-w-xs"
-          onChange={(e) => setImage(e.target.files[0])}
-        />
-        {/* description */}
-        <label className="input input-bordered flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-text"
-          >
-            <path d="M17 6.1H3" />
-            <path d="M21 12.1H3" />
-            <path d="M15.1 18H3" />
-          </svg>
-          <input
-            type="text"
-            className="grow"
-            placeholder="Description..."
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </label>
-        <div>
-          <Button type="submit" onClick={handleSubmit}>
-            Submit
-          </Button>
-        </div>
-      </form>
+            {/* Upload image */}
+            <Label
+              htmlFor="image"
+              value="Upload Photos (Max 3)"
+              className="text-black"
+            />
+            <input
+              type="file"
+              name="images"
+              className="w-full py-2 pl-3 text-sm border-b border-gray-300 focus:outline-none bg-gray-100 rounded-xl text-black"
+              onChange={handleImageChange}
+              multiple
+              accept="image/*"
+            />
+
+            {/* Description */}
+            <div className="flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-5 h-5"
+              >
+                <path d="M17 6.1H3" />
+                <path d="M21 12.1H3" />
+                <path d="M15.1 18H3" />
+              </svg>
+              <input
+                type="text"
+                className="w-full py-2 pl-3 text-sm border-b border-gray-300 focus:outline-none bg-gray-100 rounded-lg text-black"
+                placeholder="Description..."
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+
+            {/* Submit Button */}
+            <div className="flex justify-center">
+              <Button type="submit" onClick={handleSubmit}>
+                Submit
+              </Button>
+            </div>
+          </form>
+        )}
+      </div>
     </>
   );
 }

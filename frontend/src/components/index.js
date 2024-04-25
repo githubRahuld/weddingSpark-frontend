@@ -5,5 +5,15 @@ import Card from "./Card.jsx";
 import ImageCard from "./ImageCard.jsx";
 import DashCard from "./DashCard.jsx";
 import VDashCard from "./VDashCard.jsx";
+import VListing from "./VListing.jsx";
 
-export { Navbar, Footer, Selector, Card, ImageCard, DashCard, VDashCard };
+export {
+  Navbar,
+  Footer,
+  Selector,
+  Card,
+  ImageCard,
+  DashCard,
+  VDashCard,
+  VListing,
+};

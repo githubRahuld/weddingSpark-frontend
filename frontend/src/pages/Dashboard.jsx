@@ -6,6 +6,7 @@ import { DashCard } from "../components";
 function Dashboard() {
   const user = useSelector((state) => state.auth.user);
   const userEmail = user.user.email;
+  // console.log(userEmail);
 
   const [data, setData] = useState([]);
 

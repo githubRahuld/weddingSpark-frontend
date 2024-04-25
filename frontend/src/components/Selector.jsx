@@ -16,18 +16,18 @@ function Selector({ data, selected, setSelected, className }) {
         );
 
   return (
-    <div className="w-72">
+    <div className="w-full lg:w-auto lg:mb-4 font-poppins">
       <Combobox value={selected} onChange={setSelected}>
         <div className="relative mt-1">
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
-              className={`w-full outline-none border-none py-2 pl-3 pr-10 text-sm leading-5 text-white focus:ring-0 bg-base-200 ${className}`}
+              className={`w-full outline-none border-none py-2 pl-3 pr-10 text-sm leading-5 text-black focus:ring-0 bg-base-200 ${className}`}
               displayValue={(country) => country.name}
               onChange={(event) => setQuery(event.target.value)}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronUpDownIcon
-                className="h-5 w-5 text-gray-400 hover:text-gray-500"
+                className="h-5 w-5 text-gray-900 hover:text-black"
                 aria-hidden="true"
               />
             </Combobox.Button>
@@ -37,7 +37,6 @@ function Selector({ data, selected, setSelected, className }) {
             leave="transition ease-in duration-100"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
-            //* setQuery("") is used to clear the search query after the transition animation has finished
             afterLeave={() => setQuery("")}
           >
             <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">

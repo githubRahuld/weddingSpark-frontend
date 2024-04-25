@@ -36,6 +36,7 @@ function VDashboard() {
               <thead className="text-lg text-white uppercase bg-blue-600 dark:text-white">
                 <tr>
                   <th scope="col" className="px-7 py-3 text-left">
+                   
                     Name
                   </th>
                   <th scope="col" className="px-7 py-3 text-left">

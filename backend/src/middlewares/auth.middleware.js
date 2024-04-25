@@ -4,18 +4,13 @@ import { User } from "../models/user.models.js";
 import { ApiError } from "../utils/apiError.js";
 import { Vregister } from "../models/vendor.models.js";
 
-export const verifyJWT = asyncHandler(async (req, _, next) => {
+const verifyJWT = asyncHandler(async (req, _, next) => {
   try {
-    const newToken = req.cookies.accessToken;
-    console.log("new token : ", newToken);
     const token =
       req.cookies?.accessToken ||
       req.header("Authorization")?.replace("Bearer ", "");
 
-    console.log("user login or not :", token);
-    if (!token) {
-      throw new ApiError(401, "Unauthorized request");
-    }
+    // console.log("Token: ", token);
 
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
@@ -23,18 +18,19 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
       "-password -refreshToken"
     );
 
-    if (!user) {
-      throw new ApiError(401, "Invalid Access Token");
-    }
+    if (!user) throw new ApiError(401, "Invalid Access Token! ");
 
     req.user = user;
     next();
   } catch (error) {
-    throw new ApiError(401, error?.message || "Invalid access Token");
+    throw new ApiError(
+      401,
+      error?.message || "Not logged In or Invalid access token"
+    );
   }
 });
 
-export const vendorVerifyJWT = asyncHandler(async (req, _, next) => {
+const vendorVerifyJWT = asyncHandler(async (req, _, next) => {
   try {
     const token =
       req.cookies?.accessToken ||
@@ -63,3 +59,5 @@ export const vendorVerifyJWT = asyncHandler(async (req, _, next) => {
     throw new ApiError(401, error?.message || "Invalid access Token");
   }
 });
+
+export { verifyJWT, vendorVerifyJWT };

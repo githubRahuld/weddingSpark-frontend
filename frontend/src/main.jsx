@@ -18,12 +18,17 @@ import VendorList from "./pages/VendorList.jsx";
 import Booking from "./pages/Booking.jsx";
 import VDashboard from "./pages/VDashboard.jsx";
 import About from "./pages/About.jsx";
+import VendorAllListing from "./pages/VendorAllListing.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
+      {
+        path: "/", // This is the default route for the root URL
+        element: <Login />,
+      },
       {
         path: "/users/login",
         element: <Login />,
@@ -79,6 +84,10 @@ const router = createBrowserRouter([
       {
         path: "/vendors/logout",
         element: <VendorLogin />,
+      },
+      {
+        path: "/vendors/allListing",
+        element: <VendorAllListing />,
       },
     ],
   },

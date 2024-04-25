@@ -1,20 +1,43 @@
 import axios from "axios";
 import { Circle } from "lucide-react";
+import { useEffect, useState } from "react";
 
 function VDashCard({ list }) {
+  const [status, setStatus] = useState("Pending");
+
   const bookingId = list._id;
   console.log("Booking id: ", bookingId);
+
+  // check status for booking
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/users/bookingStatus/${bookingId}`)
+      .then((res) => {
+        console.log("Booking id: ", bookingId, " status: ", res.data.data);
+        setStatus(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const onAccept = () => {
     axios
       .patch(`http://localhost:3000/users/accept/${bookingId}`)
-      .then((res) => console.log("Status changed to confirmed: ", res))
+      .then((res) => {
+        setStatus("Confirmed");
+        console.log("Status changed to confirmed: ", res);
+      })
       .catch((err) => console.log(err));
   };
   const onReject = () => {
     axios
       .patch(`http://localhost:3000/users/reject/${bookingId}`)
-      .then((res) => console.log("Status changed to rejected: ", res))
+      .then((res) => {
+        setStatus("Rejected");
+
+        console.log("Status changed to rejected: ", res);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -73,18 +96,36 @@ function VDashCard({ list }) {
       <td
         className={`px-7 py-2 whitespace-nowrap text-sm flex items-center gap-2 `}
       >
-        <button
-          onClick={() => onAccept(list._id)}
-          className="bg-green-600 hover:bg-green-700"
-        >
-          Accept
-        </button>
-        <button
-          onClick={() => onReject(list._id)}
-          className="bg-red-600 hover:bg-red-700"
-        >
-          Reject
-        </button>
+        <div>
+          {status === "Pending" && (
+            <div>
+              <button
+                onClick={onAccept}
+                className="bg-green-600 hover:bg-green-700 mr-2"
+              >
+                Accept
+              </button>
+              <button
+                onClick={onReject}
+                className="bg-red-600 hover:bg-red-700"
+              >
+                Reject
+              </button>
+            </div>
+          )}
+          {status === "Confirmed" && (
+            <div>
+              <p className="font-jost text-xl"> Accepted</p>
+              {/* Additional content for accepted status */}
+            </div>
+          )}
+          {status === "Rejected" && (
+            <div>
+              <p className="font-jost text-xl">Rejected</p>
+              {/* Additional content for rejected status */}
+            </div>
+          )}
+        </div>
       </td>
     </tr>
   );

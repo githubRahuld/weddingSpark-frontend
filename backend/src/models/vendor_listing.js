@@ -38,10 +38,12 @@ const listingSchema = new Schema(
     description: {
       type: String,
     },
-    image: {
-      type: String,
-      required: true,
-    },
+    images: [
+      {
+        type: String, // Assuming image URLs will be stored
+        required: true,
+      },
+    ],
   },
   { timestamps: true }
 );

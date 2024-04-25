@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
+import { HeartHandshake } from "lucide-react";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -15,6 +16,31 @@ function Navbar() {
   const data = useSelector((state) => state.auth.user);
   console.log("User type: ", userType);
   console.log("allData: ", data);
+
+  const [name, setName] = useState("");
+  const [avatar, setAvatar] = useState("");
+
+  useEffect(() => {
+    let endpoint = "";
+
+    if (userType === "user") {
+      endpoint = `http://localhost:3000/users/get-user/${data.user._id}`;
+    } else if (userType === "vendor") {
+      endpoint = `http://localhost:3000/vendors/get-user/${data.user._id}`;
+    }
+
+    axios
+      .get(endpoint)
+      .then((res) => {
+        console.log("res:", res.data.data);
+        setName(res.data.data.name);
+        setAvatar(res.data.data.avatar);
+      })
+      .catch((err) => console.error(err));
+  });
+
+  console.log(name);
+  console.log(avatar);
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -75,6 +101,7 @@ function Navbar() {
               >
                 <li>
                   <Link
+                    className="text-white hover:bg-yellow-300 hover:text-black"
                     to={userType === "user" ? "/users/home" : "/vendors/home"}
                   >
                     Home
@@ -82,6 +109,7 @@ function Navbar() {
                 </li>
                 <li>
                   <Link
+                    className="text-white hover:bg-yellow-300 hover:text-black"
                     to={userType === "user" ? "/users/about" : "/vendors/about"}
                   >
                     About
@@ -90,6 +118,7 @@ function Navbar() {
 
                 <li>
                   <Link
+                    className="text-white hover:bg-yellow-300 hover:text-black"
                     to={
                       userType === "user" ? "/users/booking" : "/vendors/about"
                     }
@@ -99,6 +128,7 @@ function Navbar() {
                 </li>
                 <li>
                   <Link
+                    className="text-white hover:bg-yellow-300 hover:text-black"
                     to={
                       userType === "user"
                         ? "/users/uDashboard"
@@ -113,23 +143,28 @@ function Navbar() {
           )}
 
           {userType === "user" ? (
-            <Link to="/users/home" className="btn btn-ghost text-xl">
-              Wedding Sparks
+            <Link
+              to="/users/home"
+              className="btn btn-ghost text-4xl font-caveat text-yellow-400 hover:bg-none hover:text-yellow-500 hover:bg-base-100"
+            >
+              Wedding Spark
+              <HeartHandshake color="#ff0000" />
             </Link>
           ) : (
             <Link
               to="/vendors/home"
-              className="btn btn-ghost text-xl text-blue-700"
+              className="btn btn-ghost text-4xl font-caveat text-sky-400 hover:bg-none hover:text-sky-300 hover:bg-base-100"
             >
-              Wedding Sparks
+              Wedding Spark
             </Link>
           )}
         </div>
         {isLoggedIn && (
-          <div className="navbar-center hidden lg:flex font-poppins text-xl">
+          <div className="navbar-center hidden lg:flex text-xl text-white font-poppins">
             <ul className="menu menu-horizontal px-1">
               <li>
                 <Link
+                  className="text-white hover:bg-yellow-300 hover:text-black"
                   to={userType === "user" ? "/users/home" : "/vendors/home"}
                 >
                   Home
@@ -137,6 +172,7 @@ function Navbar() {
               </li>
               <li>
                 <Link
+                  className="text-white hover:bg-yellow-300 hover:text-black"
                   to={userType === "user" ? "/users/about" : "/vendors/about"}
                 >
                   About
@@ -144,6 +180,7 @@ function Navbar() {
               </li>
               <li>
                 <Link
+                  className="text-white hover:bg-yellow-300 hover:text-black"
                   to={userType === "user" ? "/users/search" : "/vendors/about"}
                 >
                   {userType === "user" ? "Book" : "About"}
@@ -151,6 +188,7 @@ function Navbar() {
               </li>
               <li>
                 <Link
+                  className="text-white hover:bg-yellow-300 hover:text-black"
                   to={
                     userType === "user"
                       ? "/users/uDashboard"
@@ -160,6 +198,16 @@ function Navbar() {
                   Dashboard
                 </Link>
               </li>
+              {userType === "vendor" && (
+                <li>
+                  <Link
+                    className="text-white hover:bg-yellow-300 hover:text-black"
+                    to={"/vendors/allListing"}
+                  >
+                    My Listing
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         )}
@@ -174,7 +222,8 @@ function Navbar() {
                 <div className="w-10 rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    src={avatar}
+                    className="w-10 h-10"
                   />
                 </div>
               </div>
@@ -183,16 +232,18 @@ function Navbar() {
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <a className="justify-between">
-                    Profile
-                    <span className="badge">New</span>
+                  <a className="justify-between font-poppins text-yellow-400 hover:text-yellow-400 hover:bg-base-200">
+                    {name}
                   </a>
                 </li>
+
                 <li>
-                  <a>Settings</a>
-                </li>
-                <li>
-                  <button onClick={handleLogout}>Logout</button>
+                  <button
+                    className="text-white hover:bg-yellow-300 hover:text-black border-none"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
                 </li>
               </ul>
             </div>

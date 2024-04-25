@@ -12,7 +12,7 @@ const Booking = () => {
   const _id = userId.state?.data;
 
   const email = useSelector((state) => state.auth.user.user.email);
-  console.log(email);
+  // console.log(email);
 
   const [name, setName] = useState("");
   const [fromDate, setFromDate] = useState("");
@@ -55,12 +55,12 @@ const Booking = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-base-200">
+    <div className="flex items-center justify-center  bg-base-200  lg:bg-[url('/img/bg/booking-bg.jpg')] bg-cover bg-center bg-no-repeat md:bg-none">
       <div className="bg-white p-8 rounded-lg shadow-lg m-4 w-full max-w-md font-poppins uppercase">
         <h2 className="font-poppins text-2xl font-bold mb-4 text-cyan-500 underline">
           Book Your Vendor Now
         </h2>
-        <form className="space-y-4 text-justify">
+        <form className="space-y-4 text-justify ">
           <div>
             <label htmlFor="name" className="block font-semibold text-black">
               Name:

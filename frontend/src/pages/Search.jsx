@@ -66,26 +66,26 @@ const App = () => {
 
   return (
     <>
-      <section className="min-h-screen px-3 grid place-items-center  selection:text-white bg-base-200 my-0">
-        <div>
-          <h1 className="pl-5 text-2xl font-bold text-white ">
+      <section className=" px-3 py-8 grid place-items-center bg-base-200 bg-[url('/img/bg/search-bg.png')]">
+        <div className="w-full">
+          <h1 className="text-2xl font-bold text-white mb-6 text-center font-jost">
             Find the vendor who is best fit for your wedding functions
           </h1>
-        </div>
-        <Form>
-          <div className="flex flex-wrap gap-3 bg-teal-600 rounded-lg p-8">
-            <div>
+          <form className="flex flex-wrap gap-3 bg-teal-600 rounded-lg p-6 justify-center md:justify-start">
+            <div className="w-full md:w-1/2 lg:w-1/3">
               <p className="text-black text-xl font-semibold">Country :</p>
               <Selector
+                className="bg-white text-black"
                 data={countryData}
                 selected={country}
                 setSelected={setCountry}
               />
             </div>
             {state && (
-              <div>
+              <div className="w-full md:w-1/2 lg:w-1/4">
                 <p className="text-black text-xl font-semibold">State :</p>
                 <Selector
+                  className="bg-white text-black"
                   data={stateData}
                   selected={state}
                   setSelected={setState}
@@ -93,28 +93,30 @@ const App = () => {
               </div>
             )}
             {city && (
-              <div>
+              <div className="w-full md:w-1/2 lg:w-1/3">
                 <p className="text-black text-xl font-semibold">City :</p>
                 <Selector
+                  className="bg-white text-black"
                   data={cityData}
                   selected={city}
                   setSelected={setCity}
                 />
               </div>
             )}
-          </div>
-
-          <button
-            className="text-white bg-blue-500 hover:bg-blue-800 hover:text-white rounded-full px-10 py-2.5 my-5 text-xl "
-            type="submit"
-            onClick={handleSubmit}
-          >
-            Search
-          </button>
-        </Form>
+            <div className="w-full flex justify-center md:justify-center ">
+              <button
+                className="text-white bg-blue-500 hover:bg-blue-800 hover:text-white rounded-full px-10 py-2.5 text-xl"
+                type="submit"
+                onClick={handleSubmit}
+              >
+                Search
+              </button>
+            </div>
+          </form>
+        </div>
       </section>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3  bg-[url('/img/bg/search-bg.png')] ">
         {vendors.length > 0 &&
           vendors.map((list) => (
             <Card
@@ -122,7 +124,7 @@ const App = () => {
               _id={list._id}
               name={list.name}
               email={list.email}
-              image={list.image}
+              images={list.images}
               city={list.city}
               contact={list.contact}
               price={list.price}
