@@ -32,7 +32,7 @@ function Navbar() {
     axios
       .get(endpoint)
       .then((res) => {
-        console.log("res:", res.data.data);
+        console.log("res at navbar:", res.data.data);
         setName(res.data.data.name);
         setAvatar(res.data.data.avatar);
       })
