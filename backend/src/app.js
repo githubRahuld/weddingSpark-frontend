@@ -6,7 +6,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["https://wedding-sparks-6nxj-frontend.vercel.app"],
+    origin: ["https://wedding-spark.vercel.app"],
     credentials: true,
   })
 );
