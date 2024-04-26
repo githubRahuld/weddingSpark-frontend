@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { baseUrl } from "../../urls";
 
 function VenderRegister() {
   const [name, setName] = useState();
@@ -24,7 +25,7 @@ function VenderRegister() {
     formData.append("avatar", avatar);
 
     axios
-      .post("http://localhost:3000/vendors/register", formData, {
+      .post(`${baseUrl}/vendors/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Set the correct content type
         },

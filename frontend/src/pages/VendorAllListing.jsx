@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { VListing } from "../components";
+import { baseUrl } from "../../urls";
 
 function VendorAllListing() {
   const user = useSelector((state) => state.auth.user);
@@ -11,7 +12,7 @@ function VendorAllListing() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/vendors/all-listing/${email}`)
+      .get(`${baseUrl}/vendors/all-listing/${email}`)
       .then((res) => {
         setData(res.data.data);
         console.log("all listing:", res.data);

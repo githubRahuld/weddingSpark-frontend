@@ -1,8 +1,8 @@
 import { City, Country, State } from "country-state-city";
 import { useEffect, useState } from "react";
 import { Card, Selector } from "../components";
-import { Form } from "react-router-dom";
 import axios from "axios";
+import { baseUrl } from "../../urls";
 
 const App = () => {
   let countryData = Country.getAllCountries();
@@ -39,7 +39,7 @@ const App = () => {
     e.preventDefault();
     city = city.name;
     axios
-      .post("http://localhost:3000/users/search", {
+      .post(`${baseUrl}/users/search`, {
         country,
         state,
         city,
@@ -55,7 +55,7 @@ const App = () => {
   useEffect(() => {
     if (!searchClicked) {
       axios
-        .get("http://localhost:3000/users/all-vendors")
+        .get(`${baseUrl}/users/all-vendors`)
         .then((res) => {
           console.log("List of all vendors: ", res.data);
           setVendors(res.data.data);

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../store/authSlice.js";
 import { Eye, EyeOff } from "lucide-react";
 import Cookies from "js-cookie";
+import { baseUrl } from "../../urls.js";
 
 function Login() {
   const [email, setEmail] = useState();
@@ -26,7 +27,7 @@ function Login() {
     setError("");
 
     axios
-      .post("http://localhost:3000/users/login", {
+      .post(`${baseUrl}/users/login`, {
         email,
         password,
       })

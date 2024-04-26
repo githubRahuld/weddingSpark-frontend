@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { DashCard } from "../components";
+import { baseUrl } from "../../urls";
 
 function Dashboard() {
   const user = useSelector((state) => state.auth.user);
@@ -12,7 +13,7 @@ function Dashboard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/users/get-booking", {
+      .get(`${baseUrl}/users/get-booking`, {
         params: { userEmail: userEmail },
       })
       .then((res) => {
