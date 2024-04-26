@@ -27,4 +27,4 @@ import vendorRouter from "./routes/vendor.routes.js";
 app.use("/users", userRouter);
 app.use("/vendors", vendorRouter);
 
-export default { app };
+export  { app };
