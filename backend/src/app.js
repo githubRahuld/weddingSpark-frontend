@@ -7,7 +7,11 @@ const app = express();
 // https://wedding-spark.vercel.app/
 app.use(
   cors({
+<<<<<<< HEAD
     origin: ["https://wedding-spark.vercel.app"],
+=======
+    origin:process.env.CORS_ORIGIN,
+>>>>>>> 860123f1d3adf29dfcd4777208492a3c820bc65b
     credentials: true,
   })
 );
@@ -28,4 +32,4 @@ import vendorRouter from "./routes/vendor.routes.js";
 app.use("/users", userRouter);
 app.use("/vendors", vendorRouter);
 
-export { app };
+export  { app };
