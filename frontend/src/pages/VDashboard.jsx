@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { VDashCard } from "../components";
-import { baseUrl } from "../../urls";
+
 
 function VDashboard() {
   const user = useSelector((state) => state.auth.user);
@@ -13,7 +13,7 @@ function VDashboard() {
 
   useEffect(() => {
     axios
-      .get(`${baseUrl}/vendors/get-booking`, {
+      .get(`/vendors/get-booking`, {
         params: { userEmail: userEmail },
       })
       .then((res) => {
