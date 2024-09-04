@@ -9,7 +9,7 @@ import { Button, Label } from "flowbite-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { baseUrl } from "../../urls";
+
 
 const categories = [
   "Venue",
@@ -93,7 +93,7 @@ function VenderList() {
     });
 
     axios
-      .post(`${baseUrl}/vendors/listing`, formData, {
+      .post(`/vendors/listing`, formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Set the correct content type
         },
