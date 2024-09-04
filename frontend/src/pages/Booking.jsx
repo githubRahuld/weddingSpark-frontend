@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { baseUrl } from "../../urls";
 
 const Booking = () => {
   const navigate = useNavigate();
@@ -40,7 +39,7 @@ const Booking = () => {
     };
 
     axios
-      .post(`${baseUrl}/users/booking`, requestData)
+      .post(`/users/booking`, requestData)
       .then((res) => {
         setLoading(false);
 
@@ -52,7 +51,7 @@ const Booking = () => {
 
   useEffect(() => {
     axios
-      .post(`${baseUrl}users/search`, { _id })
+      .post(`/users/search`, { _id })
       .then((res) => {
         setVendorName(res.data.data[0].name);
         setVendorEmail(res.data.data[0].email);
