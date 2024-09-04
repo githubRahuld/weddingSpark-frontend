@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   server: {
     proxy: {
-      "/users": "https://wedding-spark-backend.vercel.app/",
+      "/users": "https://wedding-spark-backend.vercel.app",
     },
   },
   plugins: [react()],
