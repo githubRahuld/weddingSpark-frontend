@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Circle } from "lucide-react";
 import { useEffect, useState } from "react";
-import { baseUrl } from "../../urls";
 
 function VDashCard({ list }) {
   const [status, setStatus] = useState("Pending");
@@ -12,7 +11,7 @@ function VDashCard({ list }) {
   // check status for booking
   useEffect(() => {
     axios
-      .get(`${baseUrl}/users/bookingStatus/${bookingId}`)
+      .get(`/users/bookingStatus/${bookingId}`)
       .then((res) => {
         console.log("Booking id: ", bookingId, " status: ", res.data.data);
         setStatus(res.data.data);
@@ -24,7 +23,7 @@ function VDashCard({ list }) {
 
   const onAccept = () => {
     axios
-      .patch(`${baseUrl}/users/accept/${bookingId}`)
+      .patch(`/users/accept/${bookingId}`)
       .then((res) => {
         setStatus("Confirmed");
         console.log("Status changed to confirmed: ", res);
@@ -33,7 +32,7 @@ function VDashCard({ list }) {
   };
   const onReject = () => {
     axios
-      .patch(`${baseUrl}/users/reject/${bookingId}`)
+      .patch(`/users/reject/${bookingId}`)
       .then((res) => {
         setStatus("Rejected");
 
