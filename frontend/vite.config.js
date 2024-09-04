@@ -6,6 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/users": "https://wedding-spark-backend.vercel.app",
+      "/venders": "https://wedding-spark-backend.vercel.app",
     },
   },
   plugins: [react()],
