@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginVendor } from "../store/authSlice";
 import { Eye, EyeOff } from "lucide-react";
 import Cookies from "js-cookie";
-import { baseUrl } from "../../urls";
 
 function VenderLogin() {
   const [email, setEmail] = useState();
@@ -26,7 +25,7 @@ function VenderLogin() {
     e.preventDefault();
 
     axios
-      .post(`${baseUrl}/vendors/login`, {
+      .post(`/vendors/login`, {
         email,
         password,
       })
