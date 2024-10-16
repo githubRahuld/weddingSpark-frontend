@@ -5,6 +5,7 @@ import { VDashCard } from "../components";
 
 
 function VDashboard() {
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const user = useSelector((state) => state.auth.user);
   const userEmail = user.user.email;
   console.log("Vendor Email ", userEmail);
@@ -13,7 +14,7 @@ function VDashboard() {
 
   useEffect(() => {
     axios
-      .get(`/vendors/get-booking`, {
+      .get(`${baseUrl}/vendors/get-booking`, {
         params: { userEmail: userEmail },
       })
       .then((res) => {
