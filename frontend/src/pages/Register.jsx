@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
 function Register() {
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -25,7 +26,7 @@ function Register() {
     formData.append("avatar", avatar);
 
     axios
-      .post(`/users/register`, formData, {
+      .post(`${baseUrl}/users/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Set the correct content type
         },
