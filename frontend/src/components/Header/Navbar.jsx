@@ -9,6 +9,7 @@ import { HeartHandshake } from "lucide-react";
 
 
 function Navbar() {
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -25,13 +26,13 @@ function Navbar() {
     let endpoint = "";
 
     if (userType === "user") {
-      endpoint = `/users/get-user/${data.user._id}`;
+      endpoint = `${baseUrl}/users/get-user/${data.user._id}`;
     } else if (userType === "vendor") {
-      endpoint = `/vendors/get-user/${data.user._id}`;
+      endpoint = `${baseUrl}/vendors/get-user/${data.user._id}`;
     }
 
     axios
-      .get(endpoint)
+      .get(${endpoint})
       .then((res) => {
         console.log("res at navbar:", res.data.data);
         setName(res.data.data.name);
