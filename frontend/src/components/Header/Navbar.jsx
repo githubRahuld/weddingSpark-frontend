@@ -31,14 +31,16 @@ function Navbar() {
       endpoint = `${baseUrl}/vendors/get-user/${data.user._id}`;
     }
 
-    axios
-      .get(${endpoint})
-      .then((res) => {
-        console.log("res at navbar:", res.data.data);
-        setName(res.data.data.name);
-        setAvatar(res.data.data.avatar);
-      })
-      .catch((err) => console.error(err));
+   setTimeout(() => {
+      axios
+        .get(endpoint)
+        .then((res) => {
+          console.log("res at navbar:", res.data.data);
+          setName(res.data.data.name);
+          setAvatar(res.data.data.avatar);
+        })
+        .catch((err) => console.error(err));
+    }, 2000);
   });
 
   console.log(name);
