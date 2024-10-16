@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const Booking = () => {
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
 
   // Get location object to access state data
@@ -39,7 +40,7 @@ const Booking = () => {
     };
 
     axios
-      .post(`/users/booking`, requestData)
+      .post(`{baseUrl}/users/booking`, requestData)
       .then((res) => {
         setLoading(false);
 
@@ -51,7 +52,7 @@ const Booking = () => {
 
   useEffect(() => {
     axios
-      .post(`/users/search`, { _id })
+      .post(`{baseUrl}/users/search`, { _id })
       .then((res) => {
         setVendorName(res.data.data[0].name);
         setVendorEmail(res.data.data[0].email);
