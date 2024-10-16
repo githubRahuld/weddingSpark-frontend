@@ -8,6 +8,7 @@ export default defineConfig({
       "/users": {
         target: "https://wedding-spark-backend.vercel.app",
         changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
         secure: false,
         configure: (proxy, options) => {
           proxy.on("proxyRes", (proxyRes, req, res) => {
@@ -22,6 +23,7 @@ export default defineConfig({
       "/venders": {
         target: "https://wedding-spark-backend.vercel.app",
         changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
         secure: false,
         configure: (proxy, options) => {
           proxy.on("proxyRes", (proxyRes, req, res) => {
