@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 
 function VenderRegister() {
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -25,7 +26,7 @@ function VenderRegister() {
     formData.append("avatar", avatar);
 
     axios
-      .post(`/vendors/register`, formData, {
+      .post(`${baseUrl}/vendors/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Set the correct content type
         },
